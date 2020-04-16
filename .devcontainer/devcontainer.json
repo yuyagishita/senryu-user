@@ -1,0 +1,16 @@
+{
+	"name": "golang",
+	"dockerComposeFile": [
+		"../docker-compose.yml"
+	],
+	"service": "user",
+	"workspaceFolder": "/go/src/work",
+	"settings": {
+		"terminal.integrated.shell.linux": null,
+		"go.gopath": "/go"
+	},
+	"extensions": [
+		"ms-vscode.go",
+	  ],
+	  "shutdownAction": "stopCompose"
+}
