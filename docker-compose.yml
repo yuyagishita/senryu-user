@@ -7,3 +7,6 @@ services:
       - .:/go/src/work
     ports:
         - "8080:8080"
+  user-db:
+    build:
+      context: ./docker/user-db/

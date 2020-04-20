@@ -1,6 +1,10 @@
 # nanpa-user
 ユーザー関連のサービス
 
+## ホットリロード
+freshを使ってホットリロードができるようにしている。
+`fresh -c .fresh.conf`でGoを実行できる。
+
 ## go-kitのサンプル
 https://github.com/go-kit/kit/tree/master/examples  
 を参考にして最初の学習を開始した。
