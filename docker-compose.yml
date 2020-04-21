@@ -1,12 +1,12 @@
 version: '3'
 services:
-  user:
-    build: .
-    tty: true
-    volumes:
-      - .:/go/src/work
-    ports:
-        - "8080:8080"
+  # user:
+  #   build: .
+  #   tty: true
+  #   volumes:
+  #     - .:/go/src/work
+  #   ports:
+  #       - "8080:8080"
   user-db:
     build:
       context: ./docker/user-db/
