@@ -1,12 +1,29 @@
 version: '3'
+
 services:
-  # user:
-  #   build: .
-  #   tty: true
-  #   volumes:
-  #     - .:/go/src/work
-  #   ports:
-  #       - "8080:8080"
-  user-db:
-    build:
-      context: ./docker/user-db/
+    # user:
+    #     build: .
+    #     tty: true
+    #     volumes:
+    #         - .:/go/src/work
+    #     ports:
+    #         - "8080:8080"
+    user-db:
+        build:
+            context: ./docker/user-db/
+        image: nanpa/user-db
+        hostname: user-db
+        restart: always
+        cap_drop:
+            - all
+        cap_add:
+            - CHOWN
+            - SETGID
+            - SETUID
+        read_only: true
+        tmpfs:
+            - /tmp:rw,noexec,nosuid
+        environment:
+            - reschedule=on-node-failure
+        ports:
+            - "27017:27017"

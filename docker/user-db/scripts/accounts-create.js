@@ -1,1 +1,1 @@
-db.createCollection("customers");
+db.createCollection("users");
