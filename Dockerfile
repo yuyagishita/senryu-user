@@ -1,4 +1,8 @@
 FROM golang:1.14.2-alpine3.11
+# ENV sourcesdir /go/src/github.com/microservices-demo/user/
+ENV MONGO_HOST mytestdb:27017
+ENV HATEAOS user
+ENV USER_DATABASE mongodb
 
 RUN mkdir /go/src/work
 WORKDIR /go/src/work
