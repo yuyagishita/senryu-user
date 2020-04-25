@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/microservices-demo/user/users"
+	"github.com/yu-yagishita/nanpa-user/users"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -64,47 +64,6 @@ func New() MongoUser {
 	}
 }
 
-// AddUserIDs adds userID as string to user
-func (mu *MongoUser) AddUserIDs() {
-	if mu.User.Addresses == nil {
-		mu.User.Addresses = make([]users.Address, 0)
-	}
-	for _, id := range mu.AddressIDs {
-		mu.User.Addresses = append(mu.User.Addresses, users.Address{
-			ID: id.Hex(),
-		})
-	}
-	if mu.User.Cards == nil {
-		mu.User.Cards = make([]users.Card, 0)
-	}
-	for _, id := range mu.CardIDs {
-		mu.User.Cards = append(mu.User.Cards, users.Card{ID: id.Hex()})
-	}
-	mu.User.UserID = mu.ID.Hex()
-}
-
-// MongoAddress is a wrapper for Address
-type MongoAddress struct {
-	users.Address `bson:",inline"`
-	ID            bson.ObjectId `bson:"_id"`
-}
-
-// AddID ObjectID as string
-func (m *MongoAddress) AddID() {
-	m.Address.ID = m.ID.Hex()
-}
-
-// MongoCard is a wrapper for Card
-type MongoCard struct {
-	users.Card `bson:",inline"`
-	ID         bson.ObjectId `bson:"_id"`
-}
-
-// AddID ObjectID as string
-func (m *MongoCard) AddID() {
-	m.Card.ID = m.ID.Hex()
-}
-
 // CreateUser Insert user to MongoDB, including connected addresses and cards, update passed in user with Ids
 func (m *Mongo) CreateUser(u *users.User) error {
 	s := m.Session.Copy()
@@ -132,69 +91,6 @@ func (m *Mongo) CreateUser(u *users.User) error {
 	}
 	*u = mu.User
 	return nil
-}
-
-func (m *Mongo) createCards(cs []users.Card) ([]bson.ObjectId, error) {
-	s := m.Session.Copy()
-	defer s.Close()
-	ids := make([]bson.ObjectId, 0)
-	defer s.Close()
-	for k, ca := range cs {
-		id := bson.NewObjectId()
-		mc := MongoCard{Card: ca, ID: id}
-		c := s.DB("").C("cards")
-		_, err := c.UpsertId(mc.ID, mc)
-		if err != nil {
-			return ids, err
-		}
-		ids = append(ids, id)
-		cs[k].ID = id.Hex()
-	}
-	return ids, nil
-}
-
-func (m *Mongo) createAddresses(as []users.Address) ([]bson.ObjectId, error) {
-	ids := make([]bson.ObjectId, 0)
-	s := m.Session.Copy()
-	defer s.Close()
-	for k, a := range as {
-		id := bson.NewObjectId()
-		ma := MongoAddress{Address: a, ID: id}
-		c := s.DB("").C("addresses")
-		_, err := c.UpsertId(ma.ID, ma)
-		if err != nil {
-			return ids, err
-		}
-		ids = append(ids, id)
-		as[k].ID = id.Hex()
-	}
-	return ids, nil
-}
-
-func (m *Mongo) cleanAttributes(mu MongoUser) error {
-	s := m.Session.Copy()
-	defer s.Close()
-	c := s.DB("").C("addresses")
-	_, err := c.RemoveAll(bson.M{"_id": bson.M{"$in": mu.AddressIDs}})
-	c = s.DB("").C("cards")
-	_, err = c.RemoveAll(bson.M{"_id": bson.M{"$in": mu.CardIDs}})
-	return err
-}
-
-func (m *Mongo) appendAttributeId(attr string, id bson.ObjectId, userid string) error {
-	s := m.Session.Copy()
-	defer s.Close()
-	c := s.DB("").C("customers")
-	return c.Update(bson.M{"_id": bson.ObjectIdHex(userid)},
-		bson.M{"$addToSet": bson.M{attr: id}})
-}
-
-func (m *Mongo) removeAttributeId(attr string, id bson.ObjectId, userid string) error {
-	s := m.Session.Copy()
-	defer s.Close()
-	c := s.DB("").C("customers")
-	return c.Update(bson.M{"_id": bson.ObjectIdHex(userid)},
-		bson.M{"$pull": bson.M{attr: id}})
 }
 
 // GetUserByName Get user by their name
@@ -238,53 +134,6 @@ func (m *Mongo) GetUsers() ([]users.User, error) {
 	return us, err
 }
 
-// GetUserAttributes given a user, load all cards and addresses connected to that user
-func (m *Mongo) GetUserAttributes(u *users.User) error {
-	s := m.Session.Copy()
-	defer s.Close()
-	ids := make([]bson.ObjectId, 0)
-	for _, a := range u.Addresses {
-		if !bson.IsObjectIdHex(a.ID) {
-			return ErrInvalidHexID
-		}
-		ids = append(ids, bson.ObjectIdHex(a.ID))
-	}
-	var ma []MongoAddress
-	c := s.DB("").C("addresses")
-	err := c.Find(bson.M{"_id": bson.M{"$in": ids}}).All(&ma)
-	if err != nil {
-		return err
-	}
-	na := make([]users.Address, 0)
-	for _, a := range ma {
-		a.Address.ID = a.ID.Hex()
-		na = append(na, a.Address)
-	}
-	u.Addresses = na
-
-	ids = make([]bson.ObjectId, 0)
-	for _, c := range u.Cards {
-		if !bson.IsObjectIdHex(c.ID) {
-			return ErrInvalidHexID
-		}
-		ids = append(ids, bson.ObjectIdHex(c.ID))
-	}
-	var mc []MongoCard
-	c = s.DB("").C("cards")
-	err = c.Find(bson.M{"_id": bson.M{"$in": ids}}).All(&mc)
-	if err != nil {
-		return err
-	}
-
-	nc := make([]users.Card, 0)
-	for _, ca := range mc {
-		ca.Card.ID = ca.ID.Hex()
-		nc = append(nc, ca.Card)
-	}
-	u.Cards = nc
-	return nil
-}
-
 // GetCard Gets card by objects Id
 func (m *Mongo) GetCard(id string) (users.Card, error) {
 	s := m.Session.Copy()
@@ -297,104 +146,6 @@ func (m *Mongo) GetCard(id string) (users.Card, error) {
 	err := c.FindId(bson.ObjectIdHex(id)).One(&mc)
 	mc.AddID()
 	return mc.Card, err
-}
-
-// GetCards Gets all cards
-func (m *Mongo) GetCards() ([]users.Card, error) {
-	// TODO: add pagination
-	s := m.Session.Copy()
-	defer s.Close()
-	c := s.DB("").C("cards")
-	var mcs []MongoCard
-	err := c.Find(nil).All(&mcs)
-	cs := make([]users.Card, 0)
-	for _, mc := range mcs {
-		mc.AddID()
-		cs = append(cs, mc.Card)
-	}
-	return cs, err
-}
-
-// CreateCard adds card to MongoDB
-func (m *Mongo) CreateCard(ca *users.Card, userid string) error {
-	if userid != "" && !bson.IsObjectIdHex(userid) {
-		return errors.New("Invalid Id Hex")
-	}
-	s := m.Session.Copy()
-	defer s.Close()
-	c := s.DB("").C("cards")
-	id := bson.NewObjectId()
-	mc := MongoCard{Card: *ca, ID: id}
-	_, err := c.UpsertId(mc.ID, mc)
-	if err != nil {
-		return err
-	}
-	// Address for anonymous user
-	if userid != "" {
-		err = m.appendAttributeId("cards", mc.ID, userid)
-		if err != nil {
-			return err
-		}
-	}
-	mc.AddID()
-	*ca = mc.Card
-	return err
-}
-
-// GetAddress Gets an address by object Id
-func (m *Mongo) GetAddress(id string) (users.Address, error) {
-	s := m.Session.Copy()
-	defer s.Close()
-	if !bson.IsObjectIdHex(id) {
-		return users.Address{}, errors.New("Invalid Id Hex")
-	}
-	c := s.DB("").C("addresses")
-	ma := MongoAddress{}
-	err := c.FindId(bson.ObjectIdHex(id)).One(&ma)
-	ma.AddID()
-	return ma.Address, err
-}
-
-// GetAddresses gets all addresses
-func (m *Mongo) GetAddresses() ([]users.Address, error) {
-	// TODO: add pagination
-	s := m.Session.Copy()
-	defer s.Close()
-	c := s.DB("").C("addresses")
-	var mas []MongoAddress
-	err := c.Find(nil).All(&mas)
-	as := make([]users.Address, 0)
-	for _, ma := range mas {
-		ma.AddID()
-		as = append(as, ma.Address)
-	}
-	return as, err
-}
-
-// CreateAddress Inserts Address into MongoDB
-func (m *Mongo) CreateAddress(a *users.Address, userid string) error {
-	if userid != "" && !bson.IsObjectIdHex(userid) {
-		return errors.New("Invalid Id Hex")
-	}
-	s := m.Session.Copy()
-	defer s.Close()
-	c := s.DB("").C("addresses")
-	id := bson.NewObjectId()
-	ma := MongoAddress{Address: *a, ID: id}
-	_, err := c.UpsertId(ma.ID, ma)
-	if err != nil {
-		return err
-	}
-	// Address for anonymous user
-	if userid != "" {
-		err = m.appendAttributeId("addresses", ma.ID, userid)
-		if err != nil {
-			return err
-		}
-	}
-	ma.AddID()
-	*a = ma.Address
-	return err
 }
 
 // CreateAddress Inserts Address into MongoDB

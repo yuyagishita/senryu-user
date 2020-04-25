@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/microservices-demo/user/users"
+	"github.com/yu-yagishita/nanpa-user/users"
 )
 
 // Database represents a simple interface so we can switch to a new system easily
@@ -101,63 +101,6 @@ func GetUsers() ([]users.User, error) {
 		us[k].AddLinks()
 	}
 	return us, err
-}
-
-//GetUserAttributes invokes DefaultDb method
-func GetUserAttributes(u *users.User) error {
-	err := DefaultDb.GetUserAttributes(u)
-	if err != nil {
-		return err
-	}
-	for k, _ := range u.Addresses {
-		u.Addresses[k].AddLinks()
-	}
-	for k, _ := range u.Cards {
-		u.Cards[k].AddLinks()
-	}
-	return nil
-}
-
-//CreateAddress invokes DefaultDb method
-func CreateAddress(a *users.Address, userid string) error {
-	return DefaultDb.CreateAddress(a, userid)
-}
-
-//GetAddress invokes DefaultDb method
-func GetAddress(n string) (users.Address, error) {
-	a, err := DefaultDb.GetAddress(n)
-	if err == nil {
-		a.AddLinks()
-	}
-	return a, err
-}
-
-//GetAddresses invokes DefaultDb method
-func GetAddresses() ([]users.Address, error) {
-	as, err := DefaultDb.GetAddresses()
-	for k, _ := range as {
-		as[k].AddLinks()
-	}
-	return as, err
-}
-
-//CreateCard invokes DefaultDb method
-func CreateCard(c *users.Card, userid string) error {
-	return DefaultDb.CreateCard(c, userid)
-}
-
-//GetCard invokes DefaultDb method
-func GetCard(n string) (users.Card, error) {
-	return DefaultDb.GetCard(n)
-}
-
-//GetCards invokes DefaultDb method
-func GetCards() ([]users.Card, error) {
-	cs, err := DefaultDb.GetCards()
-	for k, _ := range cs {
-		cs[k].AddLinks()
-	}
-	return cs, err
 }
 
 //Delete invokes DefaultDb method

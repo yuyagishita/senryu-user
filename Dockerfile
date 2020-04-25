@@ -1,5 +1,5 @@
 FROM golang:1.14.2-alpine3.11
-# ENV sourcesdir /go/src/github.com/microservices-demo/user/
+ENV sourcesdir /go/src/github.com/yu-yagishita/nanpa-user
 ENV MONGO_HOST mytestdb:27017
 ENV HATEAOS user
 ENV USER_DATABASE mongodb
@@ -7,7 +7,7 @@ ENV USER_DATABASE mongodb
 RUN mkdir /go/src/work
 WORKDIR /go/src/work
 
-ADD . /
+ADD . ${sourcesdir}
 
 RUN apk add --no-cache alpine-sdk
 RUN apk update
