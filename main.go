@@ -61,9 +61,15 @@ func main() {
 		decodeCountRequest,
 		encodeResponse,
 	)
+	loginHandler := httptransport.NewServer(
+		makeLoginEndpoint(svc),
+		decodeCountRequest,
+		encodeResponse,
+	)
 
 	http.Handle("/uppercase", uppercaseHandler)
 	http.Handle("/count", countHandler)
+	http.Handle("/login", countHandler)
 	http.Handle("/metrics", promhttp.Handler())
 	logger.Log("msg", "HTTP", "addr", *listen)
 	logger.Log("err", http.ListenAndServe(*listen, nil))

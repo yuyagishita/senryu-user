@@ -29,6 +29,14 @@ func makeCountEndpoint(svc StringService) endpoint.Endpoint {
 	}
 }
 
+func makeLoginEndpoint(svc StringService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		req := request.(countRequest)
+		v := svc.Count(req.S)
+		return countResponse{v}, nil
+	}
+}
+
 func decodeUppercaseRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	var request uppercaseRequest
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
