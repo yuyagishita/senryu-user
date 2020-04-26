@@ -12,7 +12,7 @@ func instrumentingMiddleware(
 	requestLatency metrics.Histogram,
 	countResult metrics.Histogram,
 ) ServiceMiddleware {
-	return func(next StringService) StringService {
+	return func(next Service) Service {
 		return instrmw{requestCount, requestLatency, countResult, next}
 	}
 }
@@ -21,7 +21,7 @@ type instrmw struct {
 	requestCount   metrics.Counter
 	requestLatency metrics.Histogram
 	countResult    metrics.Histogram
-	StringService
+	Service
 }
 
 func (mw instrmw) Uppercase(s string) (output string, err error) {
@@ -31,7 +31,7 @@ func (mw instrmw) Uppercase(s string) (output string, err error) {
 		mw.requestLatency.With(lvs...).Observe(time.Since(begin).Seconds())
 	}(time.Now())
 
-	output, err = mw.StringService.Uppercase(s)
+	output, err = mw.Service.Uppercase(s)
 	return
 }
 
@@ -43,6 +43,6 @@ func (mw instrmw) Count(s string) (n int) {
 		mw.countResult.Observe(float64(n))
 	}(time.Now())
 
-	n = mw.StringService.Count(s)
+	n = mw.Service.Count(s)
 	return
 }

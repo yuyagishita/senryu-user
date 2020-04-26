@@ -25,7 +25,7 @@ func proxyingMiddleware(ctx context.Context, instances string, logger log.Logger
 	// If instances is empty, don't proxy.
 	if instances == "" {
 		logger.Log("proxy_to", "none")
-		return func(next StringService) StringService { return next }
+		return func(next Service) Service { return next }
 	}
 
 	// Set some parameters for our client.
@@ -58,17 +58,17 @@ func proxyingMiddleware(ctx context.Context, instances string, logger log.Logger
 	retry := lb.Retry(maxAttempts, maxTime, balancer)
 
 	// And finally, return the ServiceMiddleware, implemented by proxymw.
-	return func(next StringService) StringService {
+	return func(next Service) Service {
 		return proxymw{ctx, next, retry}
 	}
 }
 
-// proxymw implements StringService, forwarding Uppercase requests to the
+// proxymw implements Service, forwarding Uppercase requests to the
 // provided endpoint, and serving all other (i.e. Count) requests via the
-// next StringService.
+// next Service.
 type proxymw struct {
 	ctx       context.Context
-	next      StringService     // Serve most requests via this service...
+	next      Service           // Serve most requests via this service...
 	uppercase endpoint.Endpoint // ...except Uppercase, which gets served by this endpoint
 }
 

@@ -7,14 +7,14 @@ import (
 )
 
 func loggingMiddleware(logger log.Logger) ServiceMiddleware {
-	return func(next StringService) StringService {
+	return func(next Service) Service {
 		return logmw{logger, next}
 	}
 }
 
 type logmw struct {
 	logger log.Logger
-	StringService
+	Service
 }
 
 func (mw logmw) Uppercase(s string) (output string, err error) {
@@ -28,7 +28,7 @@ func (mw logmw) Uppercase(s string) (output string, err error) {
 		)
 	}(time.Now())
 
-	output, err = mw.StringService.Uppercase(s)
+	output, err = mw.Service.Uppercase(s)
 	return
 }
 
@@ -42,6 +42,6 @@ func (mw logmw) Count(s string) (n int) {
 		)
 	}(time.Now())
 
-	n = mw.StringService.Count(s)
+	n = mw.Service.Count(s)
 	return
 }

@@ -5,27 +5,35 @@ import (
 	"strings"
 )
 
-// StringService provides operations on strings.
-type StringService interface {
+// Service provides operations on strings.
+type Service interface {
 	Uppercase(string) (string, error)
 	Count(string) int
+	Login(string) (string, error)
 }
 
-type stringService struct{}
+type service struct{}
 
-func (stringService) Uppercase(s string) (string, error) {
+func (service) Uppercase(s string) (string, error) {
 	if s == "" {
 		return "", ErrEmpty
 	}
 	return strings.ToUpper(s), nil
 }
 
-func (stringService) Count(s string) int {
+func (service) Count(s string) int {
 	return len(s)
+}
+
+func (service) Login(s string) (string, error) {
+	if s == "" {
+		return "", ErrEmpty
+	}
+	return strings.ToUpper(s), nil
 }
 
 // ErrEmpty is returned when an input string is empty.
 var ErrEmpty = errors.New("empty string")
 
-// ServiceMiddleware is a chainable behavior modifier for StringService.
-type ServiceMiddleware func(StringService) StringService
+// ServiceMiddleware is a chainable behavior modifier for Service.
+type ServiceMiddleware func(Service) Service
