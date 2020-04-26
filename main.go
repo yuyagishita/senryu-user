@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"net/http"
 	"os"
@@ -17,7 +16,7 @@ import (
 func main() {
 	var (
 		listen = flag.String("listen", ":8080", "HTTP listen address")
-		proxy  = flag.String("proxy", "", "Optional comma-separated list of URLs to proxy uppercase requests")
+		// proxy  = flag.String("proxy", "", "Optional comma-separated list of URLs to proxy uppercase requests")
 	)
 	flag.Parse()
 
@@ -47,7 +46,7 @@ func main() {
 
 	var svc Service
 	svc = service{}
-	svc = proxyingMiddleware(context.Background(), *proxy, logger)(svc)
+	// svc = proxyingMiddleware(context.Background(), *proxy, logger)(svc)
 	svc = loggingMiddleware(logger)(svc)
 	svc = instrumentingMiddleware(requestCount, requestLatency, countResult)(svc)
 
@@ -63,7 +62,7 @@ func main() {
 	)
 	loginHandler := httptransport.NewServer(
 		makeLoginEndpoint(svc),
-		decodeCountRequest,
+		decodeLoginRequest,
 		encodeResponse,
 	)
 

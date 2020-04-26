@@ -9,7 +9,7 @@ import (
 type Service interface {
 	Uppercase(string) (string, error)
 	Count(string) int
-	Login(string) (string, error)
+	Login(username, password string) (string, error)
 }
 
 type service struct{}
@@ -25,11 +25,11 @@ func (service) Count(s string) int {
 	return len(s)
 }
 
-func (service) Login(s string) (string, error) {
-	if s == "" {
+func (service) Login(username, password string) (string, error) {
+	if username == "" {
 		return "", ErrEmpty
 	}
-	return strings.ToUpper(s), nil
+	return strings.ToUpper(username), nil
 }
 
 // ErrEmpty is returned when an input string is empty.

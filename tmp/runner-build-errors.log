@@ -1,3 +1,0 @@
-# main
-./proxying.go:62:17: cannot use proxymw literal (type proxymw) as type Service in return argument:
-	proxymw does not implement Service (missing Login method)

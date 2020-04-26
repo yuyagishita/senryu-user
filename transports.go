@@ -31,9 +31,12 @@ func makeCountEndpoint(svc Service) endpoint.Endpoint {
 
 func makeLoginEndpoint(svc Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		req := request.(countRequest)
-		v := svc.Count(req.S)
-		return countResponse{v}, nil
+		req := request.(loginRequest)
+		v, err := svc.Login(req.username, req.password)
+		if err != nil {
+			return loginResponse{v, err.Error()}, nil
+		}
+		return loginResponse{v, ""}, nil
 	}
 }
 
@@ -47,6 +50,14 @@ func decodeUppercaseRequest(_ context.Context, r *http.Request) (interface{}, er
 
 func decodeCountRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	var request countRequest
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+		return nil, err
+	}
+	return request, nil
+}
+
+func decodeLoginRequest(_ context.Context, r *http.Request) (interface{}, error) {
+	var request loginRequest
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		return nil, err
 	}
@@ -89,4 +100,14 @@ type countRequest struct {
 
 type countResponse struct {
 	V int `json:"v"`
+}
+
+type loginRequest struct {
+	username string `json:"username"`
+	password string `json:"password"`
+}
+
+type loginResponse struct {
+	V   string `json:"v"`
+	Err string `json:"err,omitempty"`
 }
