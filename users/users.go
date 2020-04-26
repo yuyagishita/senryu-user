@@ -52,9 +52,9 @@ func (u *User) Validate() error {
 // 	}
 // }
 
-func (u *User) AddLinks() {
-	u.Links.AddCustomer(u.UserID)
-}
+// func (u *User) AddLinks() {
+// 	u.Links.AddCustomer(u.UserID)
+// }
 
 func (u *User) NewSalt() {
 	h := sha1.New()

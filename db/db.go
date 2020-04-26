@@ -73,7 +73,7 @@ func CreateUser(u *users.User) error {
 func GetUserByName(n string) (users.User, error) {
 	u, err := DefaultDb.GetUserByName(n)
 	if err == nil {
-		u.AddLinks()
+		// u.AddLinks()
 	}
 	return u, err
 }
@@ -82,7 +82,7 @@ func GetUserByName(n string) (users.User, error) {
 func GetUser(n string) (users.User, error) {
 	u, err := DefaultDb.GetUser(n)
 	if err == nil {
-		u.AddLinks()
+		// u.AddLinks()
 	}
 	return u, err
 }
@@ -90,9 +90,9 @@ func GetUser(n string) (users.User, error) {
 //GetUsers invokes DefaultDb method
 func GetUsers() ([]users.User, error) {
 	us, err := DefaultDb.GetUsers()
-	for k, _ := range us {
-		us[k].AddLinks()
-	}
+	// for k, _ := range us {
+	// 	us[k].AddLinks()
+	// }
 	return us, err
 }
 
