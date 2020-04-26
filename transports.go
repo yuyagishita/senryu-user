@@ -32,7 +32,8 @@ func makeCountEndpoint(svc Service) endpoint.Endpoint {
 func makeLoginEndpoint(svc Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(loginRequest)
-		v, err := svc.Login(req.username, req.password)
+		print("req.username")
+		v, err := svc.Login(req.Username, req.Password)
 		if err != nil {
 			return loginResponse{v, err.Error()}, nil
 		}
@@ -103,8 +104,8 @@ type countResponse struct {
 }
 
 type loginRequest struct {
-	username string `json:"username"`
-	password string `json:"password"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 type loginResponse struct {

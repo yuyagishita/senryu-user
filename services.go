@@ -29,7 +29,7 @@ func (service) Login(username, password string) (string, error) {
 	if username == "" {
 		return "", ErrEmpty
 	}
-	return strings.ToUpper(username), nil
+	return username, nil
 }
 
 // ErrEmpty is returned when an input string is empty.
