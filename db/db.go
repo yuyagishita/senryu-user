@@ -17,14 +17,7 @@ type Database interface {
 	GetUser(string) (users.User, error)
 	GetUsers() ([]users.User, error)
 	CreateUser(*users.User) error
-	GetUserAttributes(*users.User) error
-	GetAddress(string) (users.Address, error)
-	GetAddresses() ([]users.Address, error)
-	CreateAddress(*users.Address, string) error
-	GetCard(string) (users.Card, error)
-	GetCards() ([]users.Card, error)
 	Delete(string, string) error
-	CreateCard(*users.Card, string) error
 	Ping() error
 }
 

@@ -134,20 +134,6 @@ func (m *Mongo) GetUsers() ([]users.User, error) {
 	return us, err
 }
 
-// GetCard Gets card by objects Id
-func (m *Mongo) GetCard(id string) (users.Card, error) {
-	s := m.Session.Copy()
-	defer s.Close()
-	if !bson.IsObjectIdHex(id) {
-		return users.Card{}, errors.New("Invalid Id Hex")
-	}
-	c := s.DB("").C("cards")
-	mc := MongoCard{}
-	err := c.FindId(bson.ObjectIdHex(id)).One(&mc)
-	mc.AddID()
-	return mc.Card, err
-}
-
 // CreateAddress Inserts Address into MongoDB
 func (m *Mongo) Delete(entity, id string) error {
 	if !bson.IsObjectIdHex(id) {
