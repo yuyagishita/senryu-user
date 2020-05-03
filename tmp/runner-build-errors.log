@@ -1,4 +1,0 @@
-go: finding module for package github.com/yu-yagishita/nanpa-user/db
-services.go:7:2: cannot find module providing package github.com/yu-yagishita/nanpa-user/db: module github.com/yu-yagishita/nanpa-user/db: git ls-remote -q origin in /go/pkg/mod/cache/vcs/d99582f38bf8799347c5c3580859733d5d5c417fd23feb23ec82dc0787605157: exit status 128:
-	remote: Invalid username or password.
-	fatal: Authentication failed for 'https://github.com/yu-yagishita/nanpa-user/'

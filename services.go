@@ -5,17 +5,21 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"main/users"
 	"strings"
 
 	"github.com/yu-yagishita/nanpa-user/db"
+	"github.com/yu-yagishita/nanpa-user/users"
+)
+
+var (
+	ErrUnauthorized = errors.New("Unauthorized")
 )
 
 // Service provides operations on strings.
 type Service interface {
 	Uppercase(string) (string, error)
 	Count(string) int
-	Login(username, password string) (string, error)
+	Login(username, password string) (users.User, error)
 }
 
 type service struct{}
@@ -31,8 +35,10 @@ func (service) Count(s string) int {
 	return len(s)
 }
 
-func (service) Login(username, password string) (string, error) {
+func (service) Login(username, password string) (users.User, error) {
+	fmt.Println("username:" + username)
 	u, err := db.GetUserByName(username)
+	fmt.Println("loginend")
 	if err != nil {
 		return users.New(), err
 	}

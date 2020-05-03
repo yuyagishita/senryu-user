@@ -4,10 +4,12 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
 	"github.com/go-kit/kit/endpoint"
+	"github.com/yu-yagishita/nanpa-user/users"
 )
 
 func makeUppercaseEndpoint(svc Service) endpoint.Endpoint {
@@ -30,14 +32,12 @@ func makeCountEndpoint(svc Service) endpoint.Endpoint {
 }
 
 func makeLoginEndpoint(svc Service) endpoint.Endpoint {
-	return func(ctx context.Context, request interface{}) (interface{}, error) {
+	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
 		req := request.(loginRequest)
-		print("req.username")
-		v, err := svc.Login(req.Username, req.Password)
-		if err != nil {
-			return loginResponse{v, err.Error()}, nil
-		}
-		return loginResponse{v, ""}, nil
+		fmt.Println("req.Username " + req.Username)
+		fmt.Print("req.Password " + req.Password)
+		u, err := svc.Login(req.Username, req.Password)
+		return userResponse{User: u}, err
 	}
 }
 
@@ -108,7 +108,6 @@ type loginRequest struct {
 	Password string `json:"password"`
 }
 
-type loginResponse struct {
-	V   string `json:"v"`
-	Err string `json:"err,omitempty"`
+type userResponse struct {
+	User users.User `json:"user"`
 }
