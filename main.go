@@ -7,11 +7,17 @@ import (
 
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/yu-yagishita/nanpa-user/db"
+	"github.com/yu-yagishita/nanpa-user/db/mongodb"
 
 	"github.com/go-kit/kit/log"
 	kitprometheus "github.com/go-kit/kit/metrics/prometheus"
 	httptransport "github.com/go-kit/kit/transport/http"
 )
+
+func init() {
+	db.Register("mongodb", &mongodb.Mongo{})
+}
 
 func main() {
 	var (
