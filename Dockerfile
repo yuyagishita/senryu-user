@@ -4,10 +4,8 @@ ENV MONGO_HOST mytestdb:27017
 ENV HATEAOS user
 ENV USER_DATABASE mongodb
 
-# RUN mkdir /go/src/work
-# WORKDIR /go/src/work
-
-ADD . ${sourcesdir}
+WORKDIR ${sourcesdir}
+COPY . .
 
 RUN apk add --no-cache alpine-sdk
 RUN apk update

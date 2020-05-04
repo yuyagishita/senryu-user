@@ -36,7 +36,6 @@ func (service) Count(s string) int {
 }
 
 func (service) Login(username, password string) (users.User, error) {
-	fmt.Println("username:" + username)
 	u, err := db.GetUserByName(username)
 	fmt.Println("loginend")
 	if err != nil {

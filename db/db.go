@@ -71,7 +71,9 @@ func CreateUser(u *users.User) error {
 
 //GetUserByName invokes DefaultDb method
 func GetUserByName(n string) (users.User, error) {
+	fmt.Println("start getuser")
 	u, err := DefaultDb.GetUserByName(n)
+	fmt.Println("end getuser")
 	if err == nil {
 		// u.AddLinks()
 	}

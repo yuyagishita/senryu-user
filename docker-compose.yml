@@ -13,7 +13,7 @@ services:
             - NET_BIND_SERVICE
         # read_only: true
         volumes:
-            - .:/go/src/work
+            - .:/go/src/github.com/yu-yagishita/nanpa-user
         ports:
             - "8080:8080"
     user-db:
