@@ -11,7 +11,7 @@ insert_user({
     "firstName": "yu",
     "lastName": "yagishita",
     "username": "yagiyu",
-    "password": "fec51acb3365747fc61247da5e249674cf8463c2",
+    "password": "be9cc41f942ff8ebc3a24f63240a9c215e6bcf5a",
     "salt": "c748112bc027878aa62812ba1ae00e40ad46d497"
 });
 

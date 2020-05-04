@@ -36,13 +36,13 @@ func (service) Count(s string) int {
 }
 
 func (service) Login(username, password string) (users.User, error) {
-	fmt.Println("Login Start")
 	u, err := db.GetUserByName(username)
-	fmt.Println("Login End")
+	fmt.Println("u.FirstName: " + u.FirstName)
 	if err != nil {
 		return users.New(), err
 	}
 	if u.Password != calculatePassHash(password, u.Salt) {
+		fmt.Println("u.Password: " + u.Password)
 		return users.New(), ErrUnauthorized
 	}
 
@@ -60,5 +60,7 @@ func calculatePassHash(pass, salt string) string {
 	h := sha1.New()
 	io.WriteString(h, salt)
 	io.WriteString(h, pass)
+	fmt.Println(h.Sum(nil))
+	fmt.Println(fmt.Sprintf("%x", h.Sum(nil)))
 	return fmt.Sprintf("%x", h.Sum(nil))
 }
