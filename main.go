@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"net/http"
 	"os"
 
@@ -29,6 +30,20 @@ func main() {
 	var logger log.Logger
 	logger = log.NewLogfmtLogger(os.Stderr)
 	logger = log.With(logger, "listen", *listen, "caller", log.DefaultCaller)
+
+	dbconn := false
+	for !dbconn {
+		err := db.Init()
+		if err != nil {
+			if err == db.ErrNoDatabaseSelected {
+				logger.Log(err)
+			}
+			logger.Log(err)
+			fmt.Println(err)
+		} else {
+			dbconn = true
+		}
+	}
 
 	fieldKeys := []string{"method", "error"}
 	requestCount := kitprometheus.NewCounterFrom(stdprometheus.CounterOpts{

@@ -14,11 +14,11 @@ import (
 type Database interface {
 	Init() error
 	GetUserByName(string) (users.User, error)
-	GetUser(string) (users.User, error)
-	GetUsers() ([]users.User, error)
-	CreateUser(*users.User) error
-	Delete(string, string) error
-	Ping() error
+	// GetUser(string) (users.User, error)
+	// GetUsers() ([]users.User, error)
+	// CreateUser(*users.User) error
+	// Delete(string, string) error
+	// Ping() error
 }
 
 var (
@@ -34,12 +34,14 @@ var (
 )
 
 func init() {
+	fmt.Println("db: init")
 	flag.StringVar(&database, "database", os.Getenv("USER_DATABASE"), "Database to use, Mongodb or ...")
 
 }
 
 //Init inits the selected DB in DefaultDb
 func Init() error {
+	fmt.Println("db: Init")
 	if database == "" {
 		return ErrNoDatabaseSelected
 	}
@@ -61,49 +63,50 @@ func Set() error {
 
 //Register registers the database interface in the DBTypes
 func Register(name string, db Database) {
+	fmt.Println("Mongo: Register")
 	DBTypes[name] = db
 }
 
-//CreateUser invokes DefaultDb method
-func CreateUser(u *users.User) error {
-	return DefaultDb.CreateUser(u)
-}
+// //CreateUser invokes DefaultDb method
+// func CreateUser(u *users.User) error {
+// 	return DefaultDb.CreateUser(u)
+// }
 
 //GetUserByName invokes DefaultDb method
 func GetUserByName(n string) (users.User, error) {
-	fmt.Println("start getuser")
+	fmt.Println("start GetUserByName")
 	u, err := DefaultDb.GetUserByName(n)
-	fmt.Println("end getuser")
 	if err == nil {
 		// u.AddLinks()
 	}
+	fmt.Println("end GetUserByName")
 	return u, err
 }
 
-//GetUser invokes DefaultDb method
-func GetUser(n string) (users.User, error) {
-	u, err := DefaultDb.GetUser(n)
-	if err == nil {
-		// u.AddLinks()
-	}
-	return u, err
-}
+// //GetUser invokes DefaultDb method
+// func GetUser(n string) (users.User, error) {
+// 	u, err := DefaultDb.GetUser(n)
+// 	if err == nil {
+// 		// u.AddLinks()
+// 	}
+// 	return u, err
+// }
 
-//GetUsers invokes DefaultDb method
-func GetUsers() ([]users.User, error) {
-	us, err := DefaultDb.GetUsers()
-	// for k, _ := range us {
-	// 	us[k].AddLinks()
-	// }
-	return us, err
-}
+// //GetUsers invokes DefaultDb method
+// func GetUsers() ([]users.User, error) {
+// 	us, err := DefaultDb.GetUsers()
+// 	// for k, _ := range us {
+// 	// 	us[k].AddLinks()
+// 	// }
+// 	return us, err
+// }
 
-//Delete invokes DefaultDb method
-func Delete(entity, id string) error {
-	return DefaultDb.Delete(entity, id)
-}
+// //Delete invokes DefaultDb method
+// func Delete(entity, id string) error {
+// 	return DefaultDb.Delete(entity, id)
+// }
 
-//Ping invokes DefaultDB method
-func Ping() error {
-	return DefaultDb.Ping()
-}
+// //Ping invokes DefaultDB method
+// func Ping() error {
+// 	return DefaultDb.Ping()
+// }

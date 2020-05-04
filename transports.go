@@ -34,8 +34,8 @@ func makeCountEndpoint(svc Service) endpoint.Endpoint {
 func makeLoginEndpoint(svc Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
 		req := request.(loginRequest)
-		fmt.Println("req.Username " + req.Username)
-		fmt.Print("req.Password " + req.Password)
+		fmt.Println("req.Username: " + req.Username)
+		fmt.Println("req.Password: " + req.Password)
 		u, err := svc.Login(req.Username, req.Password)
 		return userResponse{User: u}, err
 	}
