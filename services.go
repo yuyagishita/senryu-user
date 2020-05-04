@@ -37,12 +37,10 @@ func (service) Count(s string) int {
 
 func (service) Login(username, password string) (users.User, error) {
 	u, err := db.GetUserByName(username)
-	fmt.Println("u.FirstName: " + u.FirstName)
 	if err != nil {
 		return users.New(), err
 	}
 	if u.Password != calculatePassHash(password, u.Salt) {
-		fmt.Println("u.Password: " + u.Password)
 		return users.New(), ErrUnauthorized
 	}
 
