@@ -41,4 +41,4 @@ RUN go mod download
 
 # RUN cd ${sourcesdir} && go install
 
-# CMD ["fresh", "-c", ".fresh.conf"]
+CMD ["fresh", "-c", ".fresh.conf"]
