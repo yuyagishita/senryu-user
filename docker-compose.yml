@@ -16,6 +16,8 @@ services:
             - .:/go/src/github.com/yu-yagishita/nanpa-user
         ports:
             - "8080:8080"
+        networks:
+            - shared-network
     user-db:
         build:
             context: ./docker/user-db/
@@ -35,3 +37,8 @@ services:
             - reschedule=on-node-failure
         ports:
             - "27017:27017"
+        networks:
+            - shared-network
+networks:
+    shared-network:
+        external: true
