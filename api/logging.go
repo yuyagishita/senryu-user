@@ -6,6 +6,7 @@ import (
 	"github.com/go-kit/kit/log"
 )
 
+// LoggingMiddleware はログを出力する
 func LoggingMiddleware(logger log.Logger) ServiceMiddleware {
 	return func(next Service) Service {
 		return logmw{logger, next}

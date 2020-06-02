@@ -12,6 +12,7 @@ import (
 	"github.com/yu-yagishita/nanpa-user/users"
 )
 
+// MakeUppercaseEndpoint は渡された文字を大文字に変換して返す
 func MakeUppercaseEndpoint(svc Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(uppercaseRequest)
@@ -23,6 +24,7 @@ func MakeUppercaseEndpoint(svc Service) endpoint.Endpoint {
 	}
 }
 
+// MakeCountEndpoint は渡された文字から文字数をカウントして返す
 func MakeCountEndpoint(svc Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(countRequest)
@@ -31,6 +33,7 @@ func MakeCountEndpoint(svc Service) endpoint.Endpoint {
 	}
 }
 
+// MakeLoginEndpoint はログインチェックをしてDBに該当データがある場合、ユーザー情報を返す
 func MakeLoginEndpoint(svc Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
 		req := request.(loginRequest)
@@ -41,6 +44,7 @@ func MakeLoginEndpoint(svc Service) endpoint.Endpoint {
 	}
 }
 
+// DecodeUppercaseRequest はリクエストをデコードする
 func DecodeUppercaseRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	var request uppercaseRequest
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
@@ -49,6 +53,7 @@ func DecodeUppercaseRequest(_ context.Context, r *http.Request) (interface{}, er
 	return request, nil
 }
 
+// DecodeCountRequest はリクエストをデコードする
 func DecodeCountRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	var request countRequest
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
@@ -57,6 +62,7 @@ func DecodeCountRequest(_ context.Context, r *http.Request) (interface{}, error)
 	return request, nil
 }
 
+// DecodeLoginRequest はリクエストをデコードする
 func DecodeLoginRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	var request loginRequest
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
@@ -65,6 +71,7 @@ func DecodeLoginRequest(_ context.Context, r *http.Request) (interface{}, error)
 	return request, nil
 }
 
+// DecodeUppercaseResponse はレスポンスをデコードする
 func DecodeUppercaseResponse(_ context.Context, r *http.Response) (interface{}, error) {
 	var response uppercaseResponse
 	if err := json.NewDecoder(r.Body).Decode(&response); err != nil {
@@ -73,10 +80,12 @@ func DecodeUppercaseResponse(_ context.Context, r *http.Response) (interface{}, 
 	return response, nil
 }
 
+// EncodeResponse はレスポンスをエンコードする
 func EncodeResponse(_ context.Context, w http.ResponseWriter, response interface{}) error {
 	return json.NewEncoder(w).Encode(response)
 }
 
+// EncodeRequest はレスポンスをエンコードする
 func EncodeRequest(_ context.Context, r *http.Request, request interface{}) error {
 	var buf bytes.Buffer
 	if err := json.NewEncoder(&buf).Encode(request); err != nil {

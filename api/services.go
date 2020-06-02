@@ -12,16 +12,18 @@ import (
 )
 
 var (
+	//ErrUnauthorized エラーになった際に返す値
 	ErrUnauthorized = errors.New("Unauthorized")
 )
 
-// Service provides operations on strings.
+// Service はAPIで提供している機能をまとめたインターフェース
 type Service interface {
 	Uppercase(string) (string, error)
 	Count(string) int
 	Login(username, password string) (users.User, error)
 }
 
+// NewFixedService はfixedService{}を返す
 func NewFixedService() Service {
 	return &fixedService{}
 }

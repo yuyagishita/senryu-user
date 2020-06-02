@@ -7,6 +7,7 @@ import (
 	"github.com/go-kit/kit/metrics"
 )
 
+// InstrumentingMiddleware はアクセスの計測ができる
 func InstrumentingMiddleware(
 	requestCount metrics.Counter,
 	requestLatency metrics.Histogram,
