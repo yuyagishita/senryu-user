@@ -8,6 +8,7 @@ import (
 
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/yu-yagishita/nanpa-user/api"
 	"github.com/yu-yagishita/nanpa-user/db"
 	"github.com/yu-yagishita/nanpa-user/db/mongodb"
 
@@ -65,26 +66,26 @@ func main() {
 		Help:      "The result of each count method.",
 	}, []string{})
 
-	var svc Service
-	svc = service{}
+	var svc api.Service
+	svc = api.NewFixedService()
 	// svc = proxyingMiddleware(context.Background(), *proxy, logger)(svc)
-	svc = loggingMiddleware(logger)(svc)
-	svc = instrumentingMiddleware(requestCount, requestLatency, countResult)(svc)
+	svc = api.LoggingMiddleware(logger)(svc)
+	svc = api.InstrumentingMiddleware(requestCount, requestLatency, countResult)(svc)
 
 	uppercaseHandler := httptransport.NewServer(
-		makeUppercaseEndpoint(svc),
-		decodeUppercaseRequest,
-		encodeResponse,
+		api.MakeUppercaseEndpoint(svc),
+		api.DecodeUppercaseRequest,
+		api.EncodeResponse,
 	)
 	countHandler := httptransport.NewServer(
-		makeCountEndpoint(svc),
-		decodeCountRequest,
-		encodeResponse,
+		api.MakeCountEndpoint(svc),
+		api.DecodeCountRequest,
+		api.EncodeResponse,
 	)
 	loginHandler := httptransport.NewServer(
-		makeLoginEndpoint(svc),
-		decodeLoginRequest,
-		encodeResponse,
+		api.MakeLoginEndpoint(svc),
+		api.DecodeLoginRequest,
+		api.EncodeResponse,
 	)
 
 	http.Handle("/uppercase", uppercaseHandler)

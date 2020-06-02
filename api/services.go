@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	"crypto/sha1"
@@ -22,20 +22,24 @@ type Service interface {
 	Login(username, password string) (users.User, error)
 }
 
-type service struct{}
+func NewFixedService() Service {
+	return &fixedService{}
+}
 
-func (service) Uppercase(s string) (string, error) {
-	if s == "" {
+type fixedService struct{}
+
+func (s *fixedService) Uppercase(str string) (string, error) {
+	if str == "" {
 		return "", ErrEmpty
 	}
-	return strings.ToUpper(s), nil
+	return strings.ToUpper(str), nil
 }
 
-func (service) Count(s string) int {
-	return len(s)
+func (s *fixedService) Count(str string) int {
+	return len(str)
 }
 
-func (service) Login(username, password string) (users.User, error) {
+func (s *fixedService) Login(username, password string) (users.User, error) {
 	u, err := db.GetUserByName(username)
 	if err != nil {
 		return users.New(), err

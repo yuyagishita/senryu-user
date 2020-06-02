@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	"time"
@@ -6,7 +6,7 @@ import (
 	"github.com/go-kit/kit/log"
 )
 
-func loggingMiddleware(logger log.Logger) ServiceMiddleware {
+func LoggingMiddleware(logger log.Logger) ServiceMiddleware {
 	return func(next Service) Service {
 		return logmw{logger, next}
 	}
