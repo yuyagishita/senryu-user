@@ -69,34 +69,34 @@ func New() MongoUser {
 	}
 }
 
-// // CreateUser Insert user to MongoDB, including connected addresses and cards, update passed in user with Ids
-// func (m *Mongo) CreateUser(u *users.User) error {
-// 	s := m.Session.Copy()
-// 	defer s.Close()
-// 	id := bson.NewObjectId()
-// 	mu := New()
-// 	mu.User = *u
-// 	mu.ID = id
-// 	// var carderr error
-// 	// var addrerr error
-// 	// mu.CardIDs, carderr = m.createCards(u.Cards)
-// 	// mu.AddressIDs, addrerr = m.createAddresses(u.Addresses)
-// 	// c := s.DB("").C("customers")
-// 	// _, err := c.UpsertId(mu.ID, mu)
-// 	// if err != nil {
-// 	// 	// Gonna clean up if we can, ignore error
-// 	// 	// because the user save error takes precedence.
-// 	// 	// m.cleanAttributes(mu)
-// 	// 	return err
-// 	// }
-// 	// mu.User.UserID = mu.ID.Hex()
-// 	// Cheap err for attributes
-// 	// if carderr != nil || addrerr != nil {
-// 	// 	return fmt.Errorf("%v %v", carderr, addrerr)
-// 	// }
-// 	*u = mu.User
-// 	return nil
-// }
+// CreateUser Insert user to MongoDB, including connected addresses and cards, update passed in user with Ids
+func (m *Mongo) CreateUser(u *users.User) error {
+	s := m.Session.Copy()
+	defer s.Close()
+	id := bson.NewObjectId()
+	mu := New()
+	mu.User = *u
+	mu.ID = id
+	// var carderr error
+	// var addrerr error
+	// mu.CardIDs, carderr = m.createCards(u.Cards)
+	// mu.AddressIDs, addrerr = m.createAddresses(u.Addresses)
+	// c := s.DB("").C("customers")
+	// _, err := c.UpsertId(mu.ID, mu)
+	// if err != nil {
+	// 	// Gonna clean up if we can, ignore error
+	// 	// because the user save error takes precedence.
+	// 	// m.cleanAttributes(mu)
+	// 	return err
+	// }
+	// mu.User.UserID = mu.ID.Hex()
+	// Cheap err for attributes
+	// if carderr != nil || addrerr != nil {
+	// 	return fmt.Errorf("%v %v", carderr, addrerr)
+	// }
+	*u = mu.User
+	return nil
+}
 
 // GetUserByName Get user by their name
 func (m *Mongo) GetUserByName(name string) (users.User, error) {

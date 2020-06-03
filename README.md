@@ -53,4 +53,7 @@ listen=:8080 caller=logging.go:22 method=uppercase input=baz output=BAZ err=null
 ```
 // ログイン
 curl -XPOST -d'{"username": "yagiyu", "password": "miran"}' localhost:8080/login
+
+// ユーザー登録
+curl -XPOST -d'{"username": "test", "email": "yagiyu.0725@gmail.com",  "password": "test"}' localhost:8080/register
 ```

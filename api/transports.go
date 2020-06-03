@@ -51,7 +51,7 @@ func MakeRegisterEndpoint(svc Service) endpoint.Endpoint {
 		fmt.Println("req.Username: " + req.Username)
 		fmt.Println("req.Email: " + req.Email)
 		fmt.Println("req.Password: " + req.Password)
-		u, err := svc.Login(req.Username, req.Password)
+		u, err := svc.Register(req.Username, req.Email, req.Password)
 		return userResponse{User: u}, err
 	}
 }

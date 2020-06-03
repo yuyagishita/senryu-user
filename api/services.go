@@ -21,6 +21,7 @@ type Service interface {
 	Uppercase(string) (string, error)
 	Count(string) int
 	Login(username, password string) (users.User, error)
+	Register(username, email, password string) (users.User, error)
 }
 
 // NewFixedService はfixedService{}を返す
@@ -52,6 +53,15 @@ func (s *fixedService) Login(username, password string) (users.User, error) {
 
 	return u, nil
 
+}
+
+func (s *fixedService) Register(username, email, password string) (users.User, error) {
+	u := users.New()
+	u.Username = username
+	u.Email = email
+	u.Password = calculatePassHash(password, u.Salt)
+	err := db.CreateUser(&u)
+	return u, nil
 }
 
 // ErrEmpty is returned when an input string is empty.

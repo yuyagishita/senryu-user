@@ -16,7 +16,7 @@ type Database interface {
 	GetUserByName(string) (users.User, error)
 	// GetUser(string) (users.User, error)
 	// GetUsers() ([]users.User, error)
-	// CreateUser(*users.User) error
+	CreateUser(*users.User) error
 	// Delete(string, string) error
 	// Ping() error
 }
@@ -67,10 +67,10 @@ func Register(name string, db Database) {
 	DBTypes[name] = db
 }
 
-// //CreateUser invokes DefaultDb method
-// func CreateUser(u *users.User) error {
-// 	return DefaultDb.CreateUser(u)
-// }
+//CreateUser invokes DefaultDb method
+func CreateUser(u *users.User) error {
+	return DefaultDb.CreateUser(u)
+}
 
 //GetUserByName invokes DefaultDb method
 func GetUserByName(n string) (users.User, error) {
