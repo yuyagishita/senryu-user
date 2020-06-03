@@ -61,7 +61,7 @@ func (s *fixedService) Register(username, email, password string) (users.User, e
 	u.Email = email
 	u.Password = calculatePassHash(password, u.Salt)
 	err := db.CreateUser(&u)
-	return u, nil
+	return u.UserID, err
 }
 
 // ErrEmpty is returned when an input string is empty.

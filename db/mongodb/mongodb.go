@@ -81,15 +81,15 @@ func (m *Mongo) CreateUser(u *users.User) error {
 	// var addrerr error
 	// mu.CardIDs, carderr = m.createCards(u.Cards)
 	// mu.AddressIDs, addrerr = m.createAddresses(u.Addresses)
-	// c := s.DB("").C("customers")
-	// _, err := c.UpsertId(mu.ID, mu)
-	// if err != nil {
-	// 	// Gonna clean up if we can, ignore error
-	// 	// because the user save error takes precedence.
-	// 	// m.cleanAttributes(mu)
-	// 	return err
-	// }
-	// mu.User.UserID = mu.ID.Hex()
+	c := s.DB("").C("users")
+	_, err := c.UpsertId(mu.ID, mu)
+	if err != nil {
+		// Gonna clean up if we can, ignore error
+		// because the user save error takes precedence.
+		// m.cleanAttributes(mu)
+		return err
+	}
+	mu.User.UserID = mu.ID.Hex()
 	// Cheap err for attributes
 	// if carderr != nil || addrerr != nil {
 	// 	return fmt.Errorf("%v %v", carderr, addrerr)
