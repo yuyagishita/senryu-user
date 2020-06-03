@@ -44,6 +44,18 @@ func MakeLoginEndpoint(svc Service) endpoint.Endpoint {
 	}
 }
 
+// MakeRegisterEndpoint は新規ユーザーを登録する
+func MakeRegisterEndpoint(svc Service) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
+		req := request.(registerRequest)
+		fmt.Println("req.Username: " + req.Username)
+		fmt.Println("req.Email: " + req.Email)
+		fmt.Println("req.Password: " + req.Password)
+		u, err := svc.Login(req.Username, req.Password)
+		return userResponse{User: u}, err
+	}
+}
+
 // DecodeUppercaseRequest はリクエストをデコードする
 func DecodeUppercaseRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	var request uppercaseRequest
@@ -65,6 +77,15 @@ func DecodeCountRequest(_ context.Context, r *http.Request) (interface{}, error)
 // DecodeLoginRequest はリクエストをデコードする
 func DecodeLoginRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	var request loginRequest
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+		return nil, err
+	}
+	return request, nil
+}
+
+// DecodeRegisterRequest はregisterのリクエストをデコードする
+func DecodeRegisterRequest(_ context.Context, r *http.Request) (interface{}, error) {
+	var request registerRequest
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		return nil, err
 	}
@@ -119,4 +140,10 @@ type loginRequest struct {
 
 type userResponse struct {
 	User users.User `json:"user"`
+}
+
+type registerRequest struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }

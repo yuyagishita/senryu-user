@@ -47,3 +47,10 @@ listen=:8080 caller=logging.go:22 method=uppercase input=bar output=BAR err=null
 listen=:8002 caller=logging.go:22 method=uppercase input=baz output=BAZ err=null took=8.3µs
 listen=:8080 caller=logging.go:22 method=uppercase input=baz output=BAZ err=null took=1.156ms
 ```
+
+## 作成したAPIのテスト
+ローカル環境で`curl`でテストの仕方を以下に記載する。
+```
+// ログイン
+curl -XPOST -d'{"username": "yagiyu", "password": "miran"}' localhost:8080/login
+```

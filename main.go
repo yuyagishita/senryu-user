@@ -87,10 +87,15 @@ func main() {
 		api.DecodeLoginRequest,
 		api.EncodeResponse,
 	)
-
+	registerHandler := httptransport.NewServer(
+		api.MakeRegisterEndpoint(svc),
+		api.DecodeRegisterRequest,
+		api.EncodeResponse,
+	)
 	http.Handle("/uppercase", uppercaseHandler)
 	http.Handle("/count", countHandler)
 	http.Handle("/login", loginHandler)
+	http.Handle("/register", registerHandler)
 	http.Handle("/metrics", promhttp.Handler())
 	logger.Log("msg", "HTTP", "addr", *listen)
 	logger.Log("err", http.ListenAndServe(*listen, nil))
