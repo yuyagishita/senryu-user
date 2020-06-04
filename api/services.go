@@ -21,7 +21,7 @@ type Service interface {
 	Uppercase(string) (string, error)
 	Count(string) int
 	Login(username, password string) (users.User, error)
-	Register(username, email, password string) (users.User, error)
+	Register(username, email, password string) (string, error)
 }
 
 // NewFixedService はfixedService{}を返す
@@ -55,7 +55,7 @@ func (s *fixedService) Login(username, password string) (users.User, error) {
 
 }
 
-func (s *fixedService) Register(username, email, password string) (users.User, error) {
+func (s *fixedService) Register(username, email, password string) (string, error) {
 	u := users.New()
 	u.Username = username
 	u.Email = email
