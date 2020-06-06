@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	//ErrUnauthorized エラーになった際に返す値
+	// ErrUnauthorized エラーになった際に返す値
 	ErrUnauthorized = errors.New("Unauthorized")
 )
 
@@ -64,10 +64,10 @@ func (s *fixedService) Register(username, email, password string) (string, error
 	return u.UserID, err
 }
 
-// ErrEmpty is returned when an input string is empty.
+// ErrEmpty は入力文字列が空の場合返す
 var ErrEmpty = errors.New("empty string")
 
-// ServiceMiddleware is a chainable behavior modifier for Service.
+// ServiceMiddleware はServiceのチェイン可能な動作修飾子
 type ServiceMiddleware func(Service) Service
 
 func calculatePassHash(pass, salt string) string {

@@ -10,10 +10,13 @@ import (
 )
 
 var (
-	ErrNoCustomerInResponse = errors.New("Response has no matching customer")
-	ErrMissingField         = "Error missing %v"
+	// ErrNoUserInResponse はレスポンスのユーザーが違っていたらエラーを返す
+	ErrNoUserInResponse = errors.New("Response has no matching user")
+	// ErrMissingField は入力フォームに誤りがあるときに返す
+	ErrMissingField = "Error missing %v"
 )
 
+// User はユーザー情報
 type User struct {
 	FirstName string `json:"firstName" bson:"firstName"`
 	LastName  string `json:"lastName" bson:"lastName"`
@@ -24,12 +27,14 @@ type User struct {
 	Salt      string `json:"-" bson:"salt"`
 }
 
+// New はユーザーを作成する
 func New() User {
 	u := User{}
 	u.NewSalt()
 	return u
 }
 
+// Validate は入力フォームのバリデーションをする
 func (u *User) Validate() error {
 	if u.FirstName == "" {
 		return fmt.Errorf(ErrMissingField, "FirstName")
@@ -46,17 +51,7 @@ func (u *User) Validate() error {
 	return nil
 }
 
-// func (u *User) MaskCCs() {
-// 	for k, c := range u.Cards {
-// 		c.MaskCC()
-// 		u.Cards[k] = c
-// 	}
-// }
-
-// func (u *User) AddLinks() {
-// 	u.Links.AddCustomer(u.UserID)
-// }
-
+// NewSalt はパスワードをハッシュ化するのに使用する
 func (u *User) NewSalt() {
 	h := sha1.New()
 	io.WriteString(h, strconv.Itoa(int(time.Now().UnixNano())))
