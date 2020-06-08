@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/go-kit/kit/log"
+	"github.com/yu-yagishita/nanpa-user/users"
 )
 
 // LoggingMiddleware はログを出力する
@@ -45,4 +46,27 @@ func (mw logmw) Count(s string) (n int) {
 
 	n = mw.Service.Count(s)
 	return
+}
+
+func (mw logmw) Login(username, password string) (users.User, error) {
+	defer func(begin time.Time) {
+		_ = mw.logger.Log(
+			"method", "Login",
+			"username", username,
+			"took", time.Since(begin),
+		)
+	}(time.Now())
+	return mw.Service.Login(username, password)
+}
+
+func (mw logmw) Register(username, email, password string) (string, error) {
+	defer func(begin time.Time) {
+		_ = mw.logger.Log(
+			"method", "Register",
+			"username", username,
+			"email", email,
+			"took", time.Since(begin),
+		)
+	}(time.Now())
+	return mw.Service.Register(username, email, password)
 }
