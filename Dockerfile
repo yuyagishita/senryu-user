@@ -1,5 +1,5 @@
 FROM golang:1.14.2-alpine3.11
-ENV sourcesdir /go/src/github.com/yu-yagishita/nanpa-user
+ENV sourcesdir /go/src/github.com/yu-yagishita/senryu-user
 ENV MONGO_HOST user-db:27017
 ENV HATEAOS user
 ENV USER_DATABASE mongodb

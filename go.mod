@@ -1,4 +1,4 @@
-module github.com/yu-yagishita/nanpa-user
+module github.com/yu-yagishita/senryu-user
 
 go 1.14
 

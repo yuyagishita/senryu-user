@@ -4,7 +4,7 @@
 		"../docker-compose.yml"
 	],
 	"service": "user",
-	"workspaceFolder": "/go/src/github.com/yu-yagishita/nanpa-user",
+	"workspaceFolder": "/go/src/github.com/yu-yagishita/senryu-user",
 	"settings": {
 		"terminal.integrated.shell.linux": null,
 		"go.gopath": "/go"
