@@ -1,4 +1,4 @@
-# nanpa-user
+# senryu-user
 ユーザー関連のサービス
 
 ## ホットリロード
