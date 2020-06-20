@@ -18,9 +18,9 @@ var (
 
 // User はユーザー情報
 type User struct {
-	Email    string `json:"-" bson:"email"`
 	Username string `json:"username" bson:"username"`
 	Password string `json:"-" bson:"password,omitempty"`
+	Email    string `json:"-" bson:"email"`
 	UserID   string `json:"id" bson:"-"`
 	Salt     string `json:"-" bson:"salt"`
 }
