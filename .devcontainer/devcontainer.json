@@ -7,7 +7,9 @@
 	"workspaceFolder": "/go/src/github.com/yu-yagishita/senryu-user",
 	"settings": {
 		"terminal.integrated.shell.linux": null,
-		"go.gopath": "/go"
+		"go.gopath": "/go",
+		"go.inferGopath": true,
+        "go.useLanguageServer": true
 	},
 	"extensions": [
 		"ms-vscode.go",

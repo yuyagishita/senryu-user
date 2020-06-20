@@ -8,10 +8,9 @@ function insert_user(object) {
 
 insert_user({
     "_id": ObjectId("57a98d98e4b00679b4a830af"),
-    "firstName": "yu",
-    "lastName": "yagishita",
     "username": "yagiyu",
     "password": "be9cc41f942ff8ebc3a24f63240a9c215e6bcf5a",
+    "email": "yagiyu@gmail.com",
     "salt": "c748112bc027878aa62812ba1ae00e40ad46d497"
 });
 

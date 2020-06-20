@@ -92,7 +92,6 @@ func (m *Mongo) GetUserByName(name string) (users.User, error) {
 	fmt.Println("c.Name: " + c.Name)
 	mu := New()
 	err := c.Find(bson.M{"username": name}).One(&mu)
-	fmt.Println("mu.FirstName: " + mu.FirstName)
 	return mu.User, err
 }
 

@@ -18,13 +18,11 @@ var (
 
 // User はユーザー情報
 type User struct {
-	FirstName string `json:"firstName" bson:"firstName"`
-	LastName  string `json:"lastName" bson:"lastName"`
-	Email     string `json:"-" bson:"email"`
-	Username  string `json:"username" bson:"username"`
-	Password  string `json:"-" bson:"password,omitempty"`
-	UserID    string `json:"id" bson:"-"`
-	Salt      string `json:"-" bson:"salt"`
+	Email    string `json:"-" bson:"email"`
+	Username string `json:"username" bson:"username"`
+	Password string `json:"-" bson:"password,omitempty"`
+	UserID   string `json:"id" bson:"-"`
+	Salt     string `json:"-" bson:"salt"`
 }
 
 // New はユーザーを作成する
@@ -36,12 +34,6 @@ func New() User {
 
 // Validate は入力フォームのバリデーションをする
 func (u *User) Validate() error {
-	if u.FirstName == "" {
-		return fmt.Errorf(ErrMissingField, "FirstName")
-	}
-	if u.LastName == "" {
-		return fmt.Errorf(ErrMissingField, "LastName")
-	}
 	if u.Username == "" {
 		return fmt.Errorf(ErrMissingField, "Username")
 	}
