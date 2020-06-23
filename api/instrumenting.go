@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/go-kit/kit/metrics"
+	"github.com/yu-yagishita/senryu-user/users"
 )
 
 // InstrumentingMiddleware はアクセスの計測ができる
@@ -46,4 +47,24 @@ func (mw instrmw) Count(s string) (n int) {
 
 	n = mw.Service.Count(s)
 	return
+}
+
+func (mw instrmw) Login(username, password string) (user users.User, err error) {
+	defer func(begin time.Time) {
+		lvs := []string{"method", "Login", "error", fmt.Sprint(err != nil)}
+		mw.requestCount.With(lvs...).Add(1)
+		mw.requestLatency.With(lvs...).Observe(time.Since(begin).Seconds())
+	}(time.Now())
+
+	return mw.Service.Login(username, password)
+}
+
+func (mw instrmw) Register(username, email, password string) (str string, err error) {
+	defer func(begin time.Time) {
+		lvs := []string{"method", "Register", "error", fmt.Sprint(err != nil)}
+		mw.requestCount.With(lvs...).Add(1)
+		mw.requestLatency.With(lvs...).Observe(time.Since(begin).Seconds())
+	}(time.Now())
+
+	return mw.Service.Register(username, email, password)
 }

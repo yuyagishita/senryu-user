@@ -24,7 +24,6 @@ func init() {
 func main() {
 	var (
 		listen = flag.String("listen", ":8080", "HTTP listen address")
-		// proxy  = flag.String("proxy", "", "Optional comma-separated list of URLs to proxy uppercase requests")
 	)
 	flag.Parse()
 
