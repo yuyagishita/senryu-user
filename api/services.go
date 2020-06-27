@@ -7,8 +7,8 @@ import (
 	"io"
 	"strings"
 
-	"github.com/yu-yagishita/senryu-user/db"
-	"github.com/yu-yagishita/senryu-user/users"
+	"github.com/yu-yagishita/senryu-post/db"
+	"github.com/yu-yagishita/senryu-post/users"
 )
 
 var (

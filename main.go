@@ -8,9 +8,9 @@ import (
 
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/yu-yagishita/senryu-user/api"
-	"github.com/yu-yagishita/senryu-user/db"
-	"github.com/yu-yagishita/senryu-user/db/mongodb"
+	"github.com/yu-yagishita/senryu-post/api"
+	"github.com/yu-yagishita/senryu-post/db"
+	"github.com/yu-yagishita/senryu-post/db/mongodb"
 
 	"github.com/go-kit/kit/log"
 	kitprometheus "github.com/go-kit/kit/metrics/prometheus"

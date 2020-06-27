@@ -9,7 +9,7 @@ import (
 	"net/http"
 
 	"github.com/go-kit/kit/endpoint"
-	"github.com/yu-yagishita/senryu-user/users"
+	"github.com/yu-yagishita/senryu-post/users"
 )
 
 // MakeUppercaseEndpoint は渡された文字を大文字に変換して返す

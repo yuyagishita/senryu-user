@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/go-kit/kit/log"
-	"github.com/yu-yagishita/senryu-user/users"
+	"github.com/yu-yagishita/senryu-post/users"
 )
 
 // LoggingMiddleware はログを出力する

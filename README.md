@@ -1,4 +1,4 @@
-# senryu-user
+# senryu-post
 ユーザー関連のサービス
 
 ## ホットリロード
