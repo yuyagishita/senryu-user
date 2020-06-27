@@ -15,7 +15,7 @@ services:
         volumes:
             - .:/go/src/github.com/yu-yagishita/senryu-post
         ports:
-            - "8080:8080"
+            - "8081:8080"
         networks:
             - shared-network
     post-db:
@@ -36,7 +36,7 @@ services:
         environment:
             - reschedule=on-node-failure
         ports:
-            - "27017:27017"
+            - "27018:27017"
         networks:
             - shared-network
 networks:
