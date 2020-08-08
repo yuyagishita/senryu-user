@@ -21,7 +21,7 @@ type User struct {
 	Username string `json:"username" bson:"username"`
 	Password string `json:"-" bson:"password,omitempty"`
 	Email    string `json:"-" bson:"email"`
-	UserID   string `json:"id" bson:"-"`
+	UserID   string `json:"user_id" bson:"-"`
 	Salt     string `json:"-" bson:"salt"`
 }
 

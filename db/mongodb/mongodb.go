@@ -92,6 +92,7 @@ func (m *Mongo) GetUserByName(name string) (users.User, error) {
 	fmt.Println("c.Name: " + c.Name)
 	mu := New()
 	err := c.Find(bson.M{"username": name}).One(&mu)
+	mu.User.UserID = mu.ID.Hex()
 	return mu.User, err
 }
 
