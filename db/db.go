@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/yu-yagishita/senryu-post/users"
+	"github.com/yu-yagishita/senryu-user/users"
 )
 
 // Database 新しいシステムに簡単に切り替えることができるようにシンプルなインターフェースにしている

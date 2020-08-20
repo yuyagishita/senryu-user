@@ -1,7 +1,7 @@
 FROM golang:1.14.2-alpine3.11
-ENV sourcesdir /go/src/github.com/yu-yagishita/senryu-post
-ENV MONGO_HOST post-db:27017
-ENV HATEAOS post
+ENV sourcesdir /go/src/github.com/yu-yagishita/senryu-user
+ENV MONGO_HOST user-db:27017
+ENV HATEAOS user
 ENV USER_DATABASE mongodb
 ENV GO111MODULE=on
 

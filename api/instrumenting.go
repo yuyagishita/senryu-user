@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/go-kit/kit/metrics"
-	"github.com/yu-yagishita/senryu-post/users"
+	"github.com/yu-yagishita/senryu-user/users"
 )
 
 // InstrumentingMiddleware はアクセスの計測ができる

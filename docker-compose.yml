@@ -1,11 +1,11 @@
 version: '3'
 
 services:
-    post:
+    user:
         build: .
         tty: true
-        image: senryu/post
-        hostname: post
+        image: senryu/user
+        hostname: user
         restart: always
         cap_drop:
             - all
@@ -13,16 +13,16 @@ services:
             - NET_BIND_SERVICE
         # read_only: true
         volumes:
-            - .:/go/src/github.com/yu-yagishita/senryu-post
+            - .:/go/src/github.com/yu-yagishita/senryu-user
         ports:
-            - "8081:8080"
+            - "8080:8080"
         networks:
             - shared-network
-    post-db:
+    user-db:
         build:
-            context: ./docker/post-db/
-        image: senryu/post-db
-        hostname: post-db
+            context: ./docker/user-db/
+        image: senryu/user-db
+        hostname: user-db
         restart: always
         cap_drop:
             - all
@@ -36,7 +36,7 @@ services:
         environment:
             - reschedule=on-node-failure
         ports:
-            - "27018:27017"
+            - "27017:27017"
         networks:
             - shared-network
 networks:

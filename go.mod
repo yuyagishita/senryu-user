@@ -1,4 +1,4 @@
-module github.com/yu-yagishita/senryu-post
+module github.com/yu-yagishita/senryu-user
 
 go 1.14
 

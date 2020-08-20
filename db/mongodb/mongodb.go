@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/yu-yagishita/senryu-post/users"
+	"github.com/yu-yagishita/senryu-user/users"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
