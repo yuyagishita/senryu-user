@@ -3,6 +3,7 @@ version: '3'
 services:
     user:
         build: .
+        command: fresh -c .fresh.conf
         tty: true
         image: senryu/user
         hostname: user
