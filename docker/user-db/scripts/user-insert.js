@@ -7,11 +7,11 @@ function insert_user(object) {
 }
 
 insert_user({
-    "_id": ObjectId("57a98d98e4b00679b4a830af"),
-    "username": "yagiyu",
-    "password": "be9cc41f942ff8ebc3a24f63240a9c215e6bcf5a",
-    "email": "yagiyu@gmail.com",
-    "salt": "c748112bc027878aa62812ba1ae00e40ad46d497"
+    "_id": ObjectId("5f4e6054ee11cb011220ca4a"),
+    "username": "test",
+    "password": "c80993c9a9ca4ca914576a54f6876d89fae2d17b",
+    "email": "test@test.com",
+    "salt": "e3ae274204fc6ef7f0b60b5feca1b049b2d824bb"
 });
 
 print("_______USER DATA_______");
